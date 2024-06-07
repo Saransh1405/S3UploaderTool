@@ -6,7 +6,6 @@ import (
 	"log"
 	"mime/multipart"
 	"net/http"
-	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -16,7 +15,12 @@ import (
 	"github.com/joho/godotenv"
 )
 
+var region string = "your region"
+var accessKey string = "your access key"
+var secretkey string = "your secret key"
+
 var uploader *s3manager.Uploader
+
 var bucketName string = "s3bucketuploader"
 
 func main() {
@@ -32,18 +36,12 @@ func init() {
 		log.Fatal("Error loading .env file")
 	}
 
-	region := os.Getenv("region")
-
-	ak := os.Getenv("aK")
-
-	sk := os.Getenv("sk")
-
 	awsSession, err := session.NewSessionWithOptions(session.Options{
 		Config: aws.Config{
 			Region: aws.String(region),
 			Credentials: credentials.NewStaticCredentials(
-				ak,
-				sk,
+				accessKey,
+				secretkey,
 				"",
 			),
 		},
