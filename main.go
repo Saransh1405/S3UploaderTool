@@ -32,19 +32,18 @@ func init() {
 		log.Fatal("Error loading .env file")
 	}
 
-	// var  string = "ap-southeast-2"
 	region := os.Getenv("region")
-	// var accessKey string = "AKIATCKARAWPUNDDMVWX"
-	accessKey := os.Getenv("accessKey")
-	// var secretkey string = "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"
-	secretkey := os.Getenv("secretkey")
+
+	ak := os.Getenv("aK")
+
+	sk := os.Getenv("sk")
 
 	awsSession, err := session.NewSessionWithOptions(session.Options{
 		Config: aws.Config{
 			Region: aws.String(region),
 			Credentials: credentials.NewStaticCredentials(
-				accessKey,
-				secretkey,
+				ak,
+				sk,
 				"",
 			),
 		},
