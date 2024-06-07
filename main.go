@@ -3,22 +3,20 @@ package main
 import (
 	"fmt"
 	"io"
+	"log"
 	"mime/multipart"
 	"net/http"
+	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
-var region string = "ap-southeast-2"
-var accessKey string = "AKIATCKARAWPUNDDMVWX"
-var secretkey string = "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"
-
 var uploader *s3manager.Uploader
-
 var bucketName string = "s3bucketuploader"
 
 func main() {
@@ -28,6 +26,19 @@ func main() {
 	r.Run(":9090")
 }
 func init() {
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	// var  string = "ap-southeast-2"
+	region := os.Getenv("region")
+	// var accessKey string = "AKIATCKARAWPUNDDMVWX"
+	accessKey := os.Getenv("accessKey")
+	// var secretkey string = "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"
+	secretkey := os.Getenv("secretkey")
+
 	awsSession, err := session.NewSessionWithOptions(session.Options{
 		Config: aws.Config{
 			Region: aws.String(region),
